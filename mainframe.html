@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<!--
+Hours invested: ca. 7 bis 2019-03-01
+2019-03-01: 1 ; 
+
+
+
+ --> 
+
+
+
+<head> 
+	<title> Planung und Motivation  </title>
+	<script src="jquery-3.1.1.js"></script>
+	<script src="angular.min.js"> </script>
+	<script src="xfunctions.js"> </script>
+	<style>
+	
+		.selected_item {
+			animation: blinker 0.3s linear 1;
+			border: 1px solid white; 
+			box-sizing:border-box; 
+		  
+		}
+
+		@keyframes blinker {
+		  50% {
+			background-color:rgba(255,255,255,0.3);
+		  }
+		}
+		
+		.no_border {
+			border-color:rgba(100,100,100,0)!important;
+		}
+		
+		.red_border {
+			border-color:red;
+		}
+		
+		
+		.black_line_h {
+			position:relative;
+			width:100%;
+			height:1px;
+			background-color:black;
+		}
+		
+		.black_line_v {
+			position:relative;
+			width:1px;
+			height:100%;
+			background-color:black;
+		}
+		
+		.close_button {
+			position:relative;
+			width:15px;
+			height:15px;
+			color:red;
+			background-color:white;
+			border:1px solid grey;
+			border-radius:3px;
+			padding-top:5px;
+			text-align:center;
+			line-height:0px;
+			margin:auto;
+		}
+		
+		
+		
+		#windows_frame {
+			position:absolute;
+			width:100%;
+			height:100vh;
+			right:0px;
+			top:0px;
+			box-sizing:border-box;
+			background-image:url("cloud_metal.png");
+			background-size:50% 50%;
+			box-shadow:
+				inset 0 0 0 1px #000,
+				inset 0 0 0 2px #ddd;
+			border-radius:10px;
+			padding:10px;
+		
+		}
+		
+		#inner_windows_frame {
+			width:100%;
+			height:100%;
+			position:relative;
+			display:flex;
+			flex-direction:column;
+			padding:2px;
+			box-shadow:
+				inset 0 0 0 1px #ddd,
+				inset 0 0 0 2px #40434a;
+			background:linear-gradient(to bottom right, rgb(100,100,255),white,rgb(100,100,255),white,rgb(100,100,255),white,rgb(100,100,255),white,rgb(100,100,255),white,rgb(100,100,255));
+		
+		}
+		
+			#input_box {
+				position:absolute; 
+				left:30%; 
+				top:30%;
+				z-index:  1000; 
+				background-color:#DDD;
+				border-radius:6px;
+				color: green; 
+				border:1px solid blue; 
+				height:100px; 
+				width:300px; 
+				display:none;
+			}
+		
+		
+			#main_menu_bar {
+				background-color: #828282;
+				border:1px solid;
+				border-left-color:#9a9a9a;
+				border-top-color:#9a9a9a;
+				border-right-color:#6c6c6c;
+				border-bottom-color:#6c6c6c;
+			
+			}
+			
+				.menu_button {
+					position:relative;
+					width:50px;
+					height:100%;
+					color:white;
+					border:1px solid black;
+					box-sizing:border-box;
+					padding:5px;
+					margin-right:10px;
+					overflow:hidden;
+				}
+			
+				
+			
+			
+		
+				#header_row {
+					position:relative;
+					height:100px;
+					width:100%;
+					padding:5px 5px 5px 5px;
+					background-color: #686868;
+					border:1px solid;
+					border-left-color:#7a7a7a;
+					border-top-color:#7a7a7a;
+					border-right-color:#5c5c5c;
+					border-bottom-color:#5c5c5c;
+					border-bottom-color:#5c5c5c;
+					box-sizing:border-box;
+					display:flex;
+					flex-direction:column;
+				}
+				
+					.header_bar {
+						position:relative;
+						box-sizing:border-box;
+						height:50px;
+						width:100%;
+						padding:2px 5px 2px 5px;
+						display:flex;
+						flex-direction:row;
+						
+						border:1px solid;
+						border-left-color:#7a7a7a;
+						border-top-color:#7a7a7a;
+						border-right-color:#5c5c5c;
+						border-bottom-color:#5c5c5c;
+						
+					}
+						
+						#header_lower_bar {
+							overflow-x:scroll;
+							::-webkit-scrollbar {
+								  width: 40px;
+								  height: 40px;
+							} 
+						}
+					
+					
+					
+				
+				#middle_row {
+					position:relative;
+					height:70%;
+					width:100%;
+					background-color:green;
+					flex-grow:1;
+					display:flex;
+					flex-direction:row;
+				
+				}
+				
+				
+				#footer_row {
+					position:relative;
+					height:100px;
+					width:100%;
+					padding:5px 5px 5px 5px;
+					background-color: #828282;
+					border:1px solid;
+					border-left-color:#7a7a7a;
+					border-top-color:#7a7a7a;
+					border-right-color:#5c5c5c;
+					border-bottom-color:#5c5c5c;
+					box-sizing:border-box;
+					display:flex;
+					flex-direction:row;
+				}
+				
+				
+				
+				
+				#left_column {
+					width:250px;
+					height:100%;
+					padding:5px 5px 5px 5px;
+					background-color: #828282;
+					border:1px solid;
+					border-left-color:#9a9a9a;
+					border-top-color:#9a9a9a;
+					border-right-color:#6c6c6c;
+					border-bottom-color:#6c6c6c;
+					box-sizing:border-box;
+					overflow-y:scroll;
+				}
+				
+				#middle_column {
+					box-sizing:border-box;
+					position:relative;
+					width:1px;
+					height:100%;
+					flex-grow:1;
+					border:1px solid;
+					background:blue;
+					border-left-color:#505050;
+					border-top-color:#505050;
+					border-right-color:#252525;
+					border-bottom-color:#252525;
+					overflow:hidden;
+					display:flex;
+					flex-direction:row;
+				}
+				
+				#right_column {
+					position:relative;
+					width:15%;
+					height:100%;
+					background-color:#828282;
+					padding:5px 5px 5px 5px;
+					border:1px solid;
+					border-left-color:#9a9a9a;
+					border-top-color:#7a7a7a;
+					border-right-color:#5c5c5c;
+					border-bottom-color:#5c5c5c;
+					box-sizing:border-box;
+					overflow-y:scroll;
+				}
+				
+				
+	#central_left_column {
+		position:relative;
+		width:150px;
+		height:100%;
+		background-color:#727272;
+		padding:5px 5px 5px 5px;
+		background-color: #686868;
+		border:1px solid;
+		border-left-color:#9a9a9a;
+		border-top-color:#7a7a7a;
+		border-right-color:#5c5c5c;
+		border-bottom-color:#5c5c5c;
+		box-sizing:border-box;
+		overflow-y:scroll;
+		flex-grow:1;
+		display:flex;
+		flex-direction:column; 
+	}
+	
+				
+				
+	#central_middle_column {
+		position:relative;
+		width:150px;
+		height:100%;
+		background-color:#727272;
+		padding:5px 5px 5px 5px;
+		background-color: #686868;
+		border:1px solid;
+		border-left-color:#9a9a9a;
+		border-top-color:#7a7a7a;
+		border-right-color:#5c5c5c;
+		border-bottom-color:#5c5c5c;
+		box-sizing:border-box;
+		overflow-y:scroll;
+		flex-grow:0;
+		display:flex;
+		flex-direction:column;
+	}
+	
+	
+	#central_right_column {
+		position:relative;
+		width:150px;
+		height:100%;
+		background-color:#727272;
+		padding:5px 5px 5px 5px;
+		background-color: #686868;
+		border:1px solid;
+		border-left-color:#9a9a9a;
+		border-top-color:#7a7a7a;
+		border-right-color:#5c5c5c;
+		border-bottom-color:#5c5c5c;
+		box-sizing:border-box;
+		overflow-y:scroll;
+		flex-grow:1;
+	}
+	
+				
+
+	</style>
+	<script> 
+		var tool_list = [
+		"radikale Maßnahmen",
+		"All in", 
+		"flankierende Maßnamen", 
+		"Maßnahmenbündel", 
+		"Eisberg Prinzip",
+		"Fähigkeiten freischalten",
+		"Mansteins Razor", 
+		"Quirrels Sledgehammer", 
+		"Hufflepuff Bones",
+		"Throw Money at the Problem", 
+		"10% Rule", 
+		"30% Rule",
+		"Thinking Things Done", 
+		"Motivation Formula Analysis", 
+		"Overkill", 
+		"Overwhelming Firepower", 
+		"Concentration of Forces", 
+		"Call for Reinforcements",
+		"put a number on it"
+	]; 
+	
+	
+		var app = angular.module ("mainApp", [] ); 
+		
+		app.controller ("BuglistController", function ($scope, $rootScope) { 
+		
+		
+			class Category {
+				constructor (name) {
+					this.name = name; 
+					this.color = "blue"; 
+					this.contentlist = []; 
+					this.item_or_cat = "master_cat";   // master_cat / sub_cat / item 
+					
+					$scope.categorylist.push (this); 
+				}
+				
+				add_item (item) {
+					this.contentlist.push (item) 
+				}
+				
+				delete_self () {
+					$scope.categorylist.remove (this);
+				}
+			}
+			
+			
+			class Item {
+				constructor (name, category) {
+					this.name = name; 
+					this.color = "magenta";
+					this.item_or_cat = "item";   // master_cat / sub_cat / item 
+					this.category = category;
+					this.item_type = "buglist_item"; 
+					
+					category.contentlist.push (this);
+				}
+				
+				delete_self () {
+					this.category.contentlist.remove (this);
+				}
+			}
+			
+			
+			
+			$scope.input_function_callback = '';
+			$scope.categorylist = [ ]; 
+		
+			$scope.tool_list = tool_list;
+		
+			$scope.input_text = "input dummy text";
+		 
+			$scope.buglist = ["Blabla" , "Einkaufen", "Wohnung verschönern"];
+			
+			$scope.select_this_element = function ( event, clicked_cat_or_item) {
+				$(event.target).addClass ("selected_item");
+				$($scope.selected_element).removeClass ("selected_item"); // resets the OLD selected Element
+				$scope.selected_element = event.target; 
+				$scope.selected_category_or_item = clicked_cat_or_item; 
+			}
+			
+			
+			
+			$scope.add_category_input = function () {
+				$scope.input_function_callback = function () {
+					console.log ("add_category function executed");
+					new Category ($scope.input_text);
+					$("#input_box").hide();
+				}
+				console.log ("selector value:  " + $scope.input_function_callback);
+				$("#input_box").show();
+			}
+			
+			
+			$scope.add_item_input = function () {
+				console.log ($scope.selected_element);
+				if  ($scope.selected_category_or_item === null ) {
+					alert ("no category selected"); 
+					return ; 
+				}  
+				
+				
+				if (   ! in_list ($scope.selected_category_or_item.item_or_cat, ["master_cat", "sub_cat"]) )  {
+					alert ("no category selected"); 
+					return ; 
+				}
+				$scope.input_function_callback = function () {
+					console.log ("add_item function executed");
+					new Item ($scope.input_text,$scope.selected_category_or_item );
+					$("#input_box").hide();
+				}
+				$("#input_box").show();
+			}
+			
+			
+			$scope.input_function_selector_function_2 = function () {
+				console.log ("selector_function_2 executed");
+				$scope.input_function_callback ();
+			}
+			
+			$scope.delete_selected_element = function () {
+				if ($scope.selected_category_or_item !== null) {
+					$scope.selected_category_or_item.delete_self ();
+					$scope.selected_category_or_item = null; 
+				} else {
+					alert ("kein element ausgewählt");
+				}
+				
+			}
+			
+			
+			$scope.selected_element = null;
+			var test = new Category ("test"); 
+			var item_1 = new Item ("item x 1", test);
+			var item_2 = new Item ("item x 2", test); 
+		})   // End : BuglistController
+	
+	</script>
+	
+</head>
+<body> 
+	<body ng-app="mainApp"> 
+	<div id="windows_frame"> 
+		<div id="inner_windows_frame"> 
+			<div id="main_menu_bar" class="header_bar"> </div>  <!-- id="main_menu_bar"  --> 
+			<div class="black_line_h"> </div>
+			
+			<div id="middle_row">
+				<div id="left_column"> </div>
+				<div class="black_line_v"> </div>
+				
+				<div id="middle_column" ng-controller="BuglistController"> <!-- CENTRAL ELEMENT !!! -->
+					<div id="input_box">
+						<form ng-submit="input_function_selector_function_2 ()"> 
+							place input here  <br>
+							<input id="input_box_input_field" type="text" ng-model="input_text" > 
+							<input type="submit" id="submit" value="OK" />
+						</form>
+					</div> <!-- id="input_box" --> 
+				
+					<div id="central_left_column"> 
+						<div style="padding-bottom:10px;" ng-repeat="cat in categorylist track by $index">
+							<div ng-click="select_this_element ( $event, cat)"> {{cat.name}} </div> 
+							<div style="padding-left:10px;font-size:10px;"  ng-click="select_this_element ( $event, item)" ng-repeat="item in cat.contentlist track by $index">  {{item.name}} </div>
+						</div>  <!-- category --> 
+					</div> <!-- id="central_left_column"-->
+					
+					<div id="central_middle_column">
+						<!-- <button ng-click="add_item_input()"> add Item  </button> -->
+						<button ng-click="delete_selected_element ()"> delete </button>
+						<button ng-click="add_category_input()"> add category </button>
+						<button ng-click="add_item_input()"> add item </button>
+						<button ng-click="test_function_1 ()"> test function </button>
+					</div> <!-- id="central_middle_column" --> 
+					<div id="central_right_column"> 
+						<div ng-repeat="tool in tool_list track by $index"> {{tool}}  </div>
+					</div> 
+				</div> <!-- id="middle_column" --> 
+			
+				<div class="black_line_v"> </div>
+				<div id="right_column">
+				</div>
+			</div>
+			<div class="black_line_h"> </div>
+			<div id="footer_row"></div>
+		</div> <!-- "inner_windows_frame" -->		
+	</div> <!-- "windows_frame"   --> 
+	
+
+
+
+
+</body>
