@@ -284,6 +284,58 @@ Hours invested: ca. 7 bis 2019-03-01
 		flex-direction:column; 
 	}
 	
+		#working_area_head_pane {
+			position:relative; 
+			width:100%;
+			height:100px; 
+			background-color:#727272;
+			padding:5px 5px 5px 5px;
+			background-color: #686868;
+			border:1px solid;
+			border-left-color:#9a9a9a;
+			border-top-color:#7a7a7a;
+			border-right-color:#5c5c5c;
+			border-bottom-color:#5c5c5c;
+			box-sizing:border-box;
+			flex-grow:0;
+		}
+		
+		#working_area_main {
+			position:relative; 
+			width:100%;
+			height:200px; 
+			background-color:#727272;
+			padding:5px 5px 5px 5px;
+			background-color: #686868;
+			border:1px solid;
+			border-left-color:#9a9a9a;
+			border-top-color:#7a7a7a;
+			border-right-color:#5c5c5c;
+			border-bottom-color:#5c5c5c;
+			box-sizing:border-box;
+			flex-grow:1;
+			display:flex; 
+			flex-direction:row;
+		}
+		
+			#working_area_column {
+				position:relative; 
+				width:200px%;
+				height:200px; 
+				background-color:#727272;
+				padding:5px 5px 5px 5px;
+				background-color: #686868;
+				border:1px solid;
+				border-left-color:#9a9a9a;
+				border-top-color:#7a7a7a;
+				border-right-color:#5c5c5c;
+				border-bottom-color:#5c5c5c;
+				box-sizing:border-box;
+				flex-grow:0;
+				display:flex; 
+				flex-direction:column;
+			}
+	
 				
 				
 	#central_middle_column {
@@ -472,7 +524,7 @@ Hours invested: ca. 7 bis 2019-03-01
 <body> 
 	<body ng-app="mainApp"> 
 	<div id="windows_frame"> 
-		<div id="inner_windows_frame"> 
+		<div id="inner_windows_frame" ng-controller="BuglistController"> 
 			<div id="main_menu_bar" class="header_bar"> </div>  <!-- id="main_menu_bar"  --> 
 			<div class="black_line_h"> </div>
 			
@@ -480,7 +532,7 @@ Hours invested: ca. 7 bis 2019-03-01
 				<div id="left_column"> </div>
 				<div class="black_line_v"> </div>
 				
-				<div id="middle_column" ng-controller="BuglistController"> <!-- CENTRAL ELEMENT !!! -->
+				<div id="middle_column" > <!-- CENTRAL ELEMENT !!! -->
 					<div id="input_box">
 						<form ng-submit="input_function_selector_function_2 ()"> 
 							place input here  <br>
@@ -489,27 +541,30 @@ Hours invested: ca. 7 bis 2019-03-01
 						</form>
 					</div> <!-- id="input_box" --> 
 				
-					<div id="central_left_column"> 
-						<div style="padding-bottom:10px;" ng-repeat="cat in categorylist track by $index">
-							<div ng-click="select_this_element ( $event, cat)"> {{cat.name}} </div> 
-							<div style="padding-left:10px;font-size:10px;"  ng-click="select_this_element ( $event, item)" ng-repeat="item in cat.contentlist track by $index">  {{item.name}} </div>
-						</div>  <!-- category --> 
+					<div id="central_left_column">  <!-- This is the working Area --> 
+						
+						<div id="working_area_head_pane"> </div>
+						<div id="workin_area_main"> 
+							<div id="wac1" class="working_area_column"> 
+								<div style="padding-bottom:10px;" ng-repeat="cat in categorylist track by $index">
+									<div ng-click="select_this_element ( $event, cat)"> {{cat.name}} </div> 
+									<div style="padding-left:10px;font-size:10px;"  ng-click="select_this_element ( $event, item)" ng-repeat="item in cat.contentlist track by $index">  {{item.name}} </div>
+								</div>  <!-- category --> 
+							</div>
+						</div> <!-- id="workin_area_main" --> 
 					</div> <!-- id="central_left_column"-->
 					
 					<div id="central_middle_column">
-						<!-- <button ng-click="add_item_input()"> add Item  </button> -->
 						<button ng-click="delete_selected_element ()"> delete </button>
 						<button ng-click="add_category_input()"> add category </button>
 						<button ng-click="add_item_input()"> add item </button>
 						<button ng-click="test_function_1 ()"> test function </button>
 					</div> <!-- id="central_middle_column" --> 
-					<div id="central_right_column"> 
-						<div ng-repeat="tool in tool_list track by $index"> {{tool}}  </div>
-					</div> 
 				</div> <!-- id="middle_column" --> 
 			
 				<div class="black_line_v"> </div>
 				<div id="right_column">
+					<div ng-repeat="tool in tool_list track by $index"> {{tool}}  </div>
 				</div>
 			</div>
 			<div class="black_line_h"> </div>
