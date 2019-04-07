@@ -101,7 +101,7 @@ Hours invested: ca. 7 bis 2019-03-01
 		
 		}
 		
-			#input_box {
+			.input_box {
 				position:absolute; 
 				left:30%; 
 				top:30%;
@@ -303,10 +303,9 @@ Hours invested: ca. 7 bis 2019-03-01
 		#working_area_main {
 			position:relative; 
 			width:100%;
-			height:200px; 
-			background-color:#727272;
 			padding:5px 5px 5px 5px;
 			background-color: #686868;
+			
 			border:1px solid;
 			border-left-color:#9a9a9a;
 			border-top-color:#7a7a7a;
@@ -318,13 +317,13 @@ Hours invested: ca. 7 bis 2019-03-01
 			flex-direction:row;
 		}
 		
-			#working_area_column {
+			.working_area_column {
 				position:relative; 
-				width:200px%;
-				height:200px; 
-				background-color:#727272;
-				padding:5px 5px 5px 5px;
+				width:150px;
+				height:100%; 
 				background-color: #686868;
+				
+				padding:5px 5px 5px 5px;
 				border:1px solid;
 				border-left-color:#9a9a9a;
 				border-top-color:#7a7a7a;
@@ -402,6 +401,7 @@ Hours invested: ca. 7 bis 2019-03-01
 		"put a number on it"
 	]; 
 	
+		
 	
 		var app = angular.module ("mainApp", [] ); 
 		
@@ -414,7 +414,6 @@ Hours invested: ca. 7 bis 2019-03-01
 					this.color = "blue"; 
 					this.contentlist = []; 
 					this.item_or_cat = "master_cat";   // master_cat / sub_cat / item 
-					
 					$scope.categorylist.push (this); 
 				}
 				
@@ -424,6 +423,24 @@ Hours invested: ca. 7 bis 2019-03-01
 				
 				delete_self () {
 					$scope.categorylist.remove (this);
+				}
+			}
+			
+			class Item_type {
+				constructor (name, color) {
+					this.name = name; 
+					this.color = this.color_to_css (color); 
+					$scope.typelist.push (this); 
+					console.log ($scope.typelist);
+				}
+				
+				color_to_css (color) {
+					var ret = "{'color' : '" + color + "'}"; 
+					return ret;
+				}
+				
+				delete_self () {
+					$scope.typelist.remove (this);
 				}
 			}
 			
@@ -439,6 +456,8 @@ Hours invested: ca. 7 bis 2019-03-01
 					category.contentlist.push (this);
 				}
 				
+				
+				
 				delete_self () {
 					this.category.contentlist.remove (this);
 				}
@@ -448,10 +467,14 @@ Hours invested: ca. 7 bis 2019-03-01
 			
 			$scope.input_function_callback = '';
 			$scope.categorylist = [ ]; 
+			$scope.typelist = []; 
 		
 			$scope.tool_list = tool_list;
 		
-			$scope.input_text = "input dummy text";
+			$scope.input_1 = "input dummy text";
+			$scope.input_2 = "input dummy text";
+			$scope.input_3 = "input dummy text";
+
 		 
 			$scope.buglist = ["Blabla" , "Einkaufen", "Wohnung verschönern"];
 			
@@ -462,17 +485,17 @@ Hours invested: ca. 7 bis 2019-03-01
 				$scope.selected_category_or_item = clicked_cat_or_item; 
 			}
 			
-			
-			
 			$scope.add_category_input = function () {
 				$scope.input_function_callback = function () {
 					console.log ("add_category function executed");
-					new Category ($scope.input_text);
+					new Category ($scope.input_1);
 					$("#input_box").hide();
 				}
 				console.log ("selector value:  " + $scope.input_function_callback);
 				$("#input_box").show();
 			}
+			
+			
 			
 			
 			$scope.add_item_input = function () {
@@ -489,13 +512,21 @@ Hours invested: ca. 7 bis 2019-03-01
 				}
 				$scope.input_function_callback = function () {
 					console.log ("add_item function executed");
-					new Item ($scope.input_text,$scope.selected_category_or_item );
+					new Item ($scope.input_1,$scope.selected_category_or_item );
 					$("#input_box").hide();
 				}
 				$("#input_box").show();
 			}
-			
-			
+			///////////
+			$scope.add_type_input = function () {
+				console.log ("add_type_input function executed"); 
+				$scope.input_function_callback = function () {
+					new Item_type ($scope.input_1, $scope.input_2); 
+					$("#input_box_type").hide();
+				}
+				$("#input_box_type").show();
+			}
+			/////////
 			$scope.input_function_selector_function_2 = function () {
 				console.log ("selector_function_2 executed");
 				$scope.input_function_callback ();
@@ -511,11 +542,16 @@ Hours invested: ca. 7 bis 2019-03-01
 				
 			}
 			
-			
+			//// Create some test stuff 
+			new Item_type ("Normales Ziel", "blue"); 
+			new Item_type ("Field of Interest", "orange");
 			$scope.selected_element = null;
 			var test = new Category ("test"); 
 			var item_1 = new Item ("item x 1", test);
 			var item_2 = new Item ("item x 2", test); 
+			
+			
+			
 		})   // End : BuglistController
 	
 	</script>
@@ -533,18 +569,30 @@ Hours invested: ca. 7 bis 2019-03-01
 				<div class="black_line_v"> </div>
 				
 				<div id="middle_column" > <!-- CENTRAL ELEMENT !!! -->
-					<div id="input_box">
+					<div id="input_box" class="input_box">
 						<form ng-submit="input_function_selector_function_2 ()"> 
 							place input here  <br>
-							<input id="input_box_input_field" type="text" ng-model="input_text" > 
+							<input id="input_box_input_field" type="text" ng-model="input_1" > 
 							<input type="submit" id="submit" value="OK" />
 						</form>
 					</div> <!-- id="input_box" --> 
+					<div id="input_box_type" class="input_box">
+						<form ng-submit="input_function_selector_function_2 ()"> 
+							place input here  <br>
+							<input id="input_box_input_field" type="text" ng-model="input_1" > 
+							<input id="input_box_input_field" type="text" ng-model="input_2" > 
+							<input id="input_box_input_field" type="text" ng-model="input_3" > 
+							<input type="submit" id="submit" value="OK" />
+						</form>
+					</div> <!-- id="input_box_type" --> 
 				
 					<div id="central_left_column">  <!-- This is the working Area --> 
 						
-						<div id="working_area_head_pane"> </div>
-						<div id="workin_area_main"> 
+						<div id="working_area_head_pane">
+							<button ng-style={{item_type.color}} ng-repeat="item_type in typelist track by $index"> {{item_type.name}} </button>
+						</div> <!-- id="working_area_head_pane" --> 
+						<div class="black_line_h"> </div>
+						<div id="working_area_main"> 
 							<div id="wac1" class="working_area_column"> 
 								<div style="padding-bottom:10px;" ng-repeat="cat in categorylist track by $index">
 									<div ng-click="select_this_element ( $event, cat)"> {{cat.name}} </div> 
@@ -557,6 +605,7 @@ Hours invested: ca. 7 bis 2019-03-01
 					<div id="central_middle_column">
 						<button ng-click="delete_selected_element ()"> delete </button>
 						<button ng-click="add_category_input()"> add category </button>
+						<button ng-click="add_type_input ()"> add Type </button></button>
 						<button ng-click="add_item_input()"> add item </button>
 						<button ng-click="test_function_1 ()"> test function </button>
 					</div> <!-- id="central_middle_column" --> 
