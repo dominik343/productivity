@@ -3,7 +3,9 @@
 <html>
 <!--
 Hours invested: ca. 7 bis 2019-03-01
-2019-03-01: 1 ; 
+2019-04-01: 1 ;  8 
+2019-04-06: 3; 	11
+2019-04-07:	0.5;  11.5
 
 
 
@@ -468,6 +470,7 @@ Hours invested: ca. 7 bis 2019-03-01
 			$scope.input_function_callback = '';
 			$scope.categorylist = [ ]; 
 			$scope.typelist = []; 
+			$scope.color_list = ["red", "blue", "green", "orange"];
 		
 			$scope.tool_list = tool_list;
 		
@@ -580,7 +583,13 @@ Hours invested: ca. 7 bis 2019-03-01
 						<form ng-submit="input_function_selector_function_2 ()"> 
 							place input here  <br>
 							<input id="input_box_input_field" type="text" ng-model="input_1" > 
-							<input id="input_box_input_field" type="text" ng-model="input_2" > 
+							
+							<!-- --> 
+							
+							
+							<select id="input_box_input_field"   ng-options="color for color in color_list" ng-model="input_2" >  </select> 
+							
+							<!-- --> 
 							<input id="input_box_input_field" type="text" ng-model="input_3" > 
 							<input type="submit" id="submit" value="OK" />
 						</form>
