@@ -1,0 +1,4 @@
+
+- Version 0.2.1  : Erste nummerierte Version: 
+	Kategorien rausgeschmissen 
+	=> Items brauchen jetzt keine Kategorien mehr 

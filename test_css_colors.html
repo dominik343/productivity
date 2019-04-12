@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<!--
+Hours invested: ca. 7 bis 2019-03-01
+2019-03-01: 1 ; 
+
+
+
+ --> 
+
+
+
+<head> 
+	<title> Planung und Motivation  </title>
+	<script src="jquery-3.1.1.js"></script>
+	<script src="angular.min.js"> </script>
+	<script src="xfunctions.js"> </script>
+	<style>
+	
+	</style> 
+	<script> 
+	
+	var app = angular.module ("mainApp", [] ); 
+		
+		app.controller ("BuglistController", function ($scope, $rootScope) { 
+			$scope.x = 5; 
+			$scope.test_css = "{'color':'green'}"; 
+		
+		});
+		
+		
+		
+	</script> 
+	
+	
+	
+</head> 
+<body ng-app="mainApp"> 
+<div ng-controller="BuglistController" > 
+	<div ng-style={{test_css}}> {{x}} </div> 
+
+</div> 
+
+
