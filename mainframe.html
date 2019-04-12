@@ -2,10 +2,11 @@
 <meta charset="UTF-8">
 <html>
 <!--
+Version: 0.2.1 
 Hours invested: ca. 7 bis 2019-03-01
 2019-04-01: 1 ;  8 
 2019-04-06: 3; 	11
-2019-04-07:	0.5;  11.5
+2019-04-07:	1.5;  12.5
 
 
 
@@ -116,6 +117,30 @@ Hours invested: ca. 7 bis 2019-03-01
 				width:300px; 
 				display:none;
 			}
+			
+			.input_box_type {
+				position:absolute; 
+				left:30%; 
+				top:30%;
+				z-index:  1000; 
+				background-color:#DDD;
+				border-radius:6px;
+				color: green; 
+				border:1px solid blue; 
+				height:100px; 
+				width:300px; 
+				display:flex;
+				flex-direction:column;
+			}
+				.input_row {
+					display:flex;
+					flex-direction:row;
+				
+				}
+				
+				.spacer_r {
+					flex-grow:1;
+				}
 		
 		
 			#main_menu_bar {
@@ -336,6 +361,12 @@ Hours invested: ca. 7 bis 2019-03-01
 				display:flex; 
 				flex-direction:column;
 			}
+				.item{
+					height:20px;
+					margin-bottom:5px;
+					padding-top:3px;
+					border:1px ridge blue;
+				}
 	
 				
 				
@@ -382,6 +413,7 @@ Hours invested: ca. 7 bis 2019-03-01
 	<script> 
 		var tool_list = [
 		"radikale Maßnahmen",
+		"Brute-Force the Problem",
 		"fire and forget", 
 		"All in", 
 		"flankierende Maßnamen", 
@@ -455,7 +487,7 @@ Hours invested: ca. 7 bis 2019-03-01
 					this.category = category;
 					this.item_type = "buglist_item"; 
 					
-					category.contentlist.push (this);
+					$scope.itemlist.push (this);
 				}
 				
 				
@@ -469,13 +501,14 @@ Hours invested: ca. 7 bis 2019-03-01
 			
 			$scope.input_function_callback = '';
 			$scope.categorylist = [ ]; 
+			$scope.itemlist = [];
 			$scope.typelist = []; 
-			$scope.color_list = ["red", "blue", "green", "orange"];
+			$scope.color_list = ["red", "blue", "green", "orange", "yellow", "purple", "magenta", "white", "silver", "gold", "aqua"];
 		
 			$scope.tool_list = tool_list;
 		
 			$scope.input_1 = "input dummy text";
-			$scope.input_2 = "input dummy text";
+			$scope.input_color = "input dummy text";
 			$scope.input_3 = "input dummy text";
 
 		 
@@ -503,7 +536,8 @@ Hours invested: ca. 7 bis 2019-03-01
 			
 			$scope.add_item_input = function () {
 				console.log ($scope.selected_element);
-				if  ($scope.selected_category_or_item === null ) {
+				/*
+				if  (in_list ($scope.selected_category_or_item , [null, undefined])  ) {
 					alert ("no category selected"); 
 					return ; 
 				}  
@@ -513,6 +547,7 @@ Hours invested: ca. 7 bis 2019-03-01
 					alert ("no category selected"); 
 					return ; 
 				}
+				*/
 				$scope.input_function_callback = function () {
 					console.log ("add_item function executed");
 					new Item ($scope.input_1,$scope.selected_category_or_item );
@@ -524,7 +559,7 @@ Hours invested: ca. 7 bis 2019-03-01
 			$scope.add_type_input = function () {
 				console.log ("add_type_input function executed"); 
 				$scope.input_function_callback = function () {
-					new Item_type ($scope.input_1, $scope.input_2); 
+					new Item_type ($scope.input_1, $scope.input_color); 
 					$("#input_box_type").hide();
 				}
 				$("#input_box_type").show();
@@ -581,17 +616,27 @@ Hours invested: ca. 7 bis 2019-03-01
 					</div> <!-- id="input_box" --> 
 					<div id="input_box_type" class="input_box">
 						<form ng-submit="input_function_selector_function_2 ()"> 
-							place input here  <br>
-							<input id="input_box_input_field" type="text" ng-model="input_1" > 
-							
+							<div class="input_row"> 
+								<div> Name </div> 
+								<div class="spacer_r"> </div>
+								<input id="input_box_input_field" type="text" ng-model="input_1" > 
+							</div>
 							<!-- --> 
 							
-							
-							<select id="input_box_input_field"   ng-options="color for color in color_list" ng-model="input_2" >  </select> 
-							
+							<div class="input_row"> 
+								<div> color </div> 
+								<div class="spacer_r"> </div>
+								<select id="input_box_input_field"   ng-options="color for color in color_list" ng-model="input_color" >  </select> 
+							</div>
 							<!-- --> 
-							<input id="input_box_input_field" type="text" ng-model="input_3" > 
-							<input type="submit" id="submit" value="OK" />
+							<div class="input_row"> 
+								<div > xx </div> 
+								<div class="spacer_r"> </div>
+								<input id="input_box_input_field" type="text" ng-model="input_3" > 
+							</div>
+							<div > 
+								<input type="submit" id="submit" value="OK" />
+							</div>
 						</form>
 					</div> <!-- id="input_box_type" --> 
 				
@@ -601,14 +646,13 @@ Hours invested: ca. 7 bis 2019-03-01
 							<button ng-style={{item_type.color}} ng-repeat="item_type in typelist track by $index"> {{item_type.name}} </button>
 						</div> <!-- id="working_area_head_pane" --> 
 						<div class="black_line_h"> </div>
+						
 						<div id="working_area_main"> 
 							<div id="wac1" class="working_area_column"> 
-								<div style="padding-bottom:10px;" ng-repeat="cat in categorylist track by $index">
-									<div ng-click="select_this_element ( $event, cat)"> {{cat.name}} </div> 
-									<div style="padding-left:10px;font-size:10px;"  ng-click="select_this_element ( $event, item)" ng-repeat="item in cat.contentlist track by $index">  {{item.name}} </div>
-								</div>  <!-- category --> 
+								<div class="item" style="padding-left:10px;font-size:10px;"  ng-click="select_this_element ( $event, item)" ng-repeat="item in itemlist track by $index">  {{item.name}} </div>
 							</div>
 						</div> <!-- id="workin_area_main" --> 
+						
 					</div> <!-- id="central_left_column"-->
 					
 					<div id="central_middle_column">
