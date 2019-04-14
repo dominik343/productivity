@@ -7,6 +7,7 @@ Hours invested: ca. 7 bis 2019-03-01
 2019-04-01: 1 ;  8 
 2019-04-06: 3; 	11
 2019-04-07:	1.5;  12.5
+2019-04-12: 1;  13.5 
 
 
 
@@ -364,8 +365,6 @@ Hours invested: ca. 7 bis 2019-03-01
 				.item{
 					height:20px;
 					margin-bottom:5px;
-					padding-top:3px;
-					border:1px ridge blue;
 				}
 	
 				
@@ -649,7 +648,7 @@ Hours invested: ca. 7 bis 2019-03-01
 						
 						<div id="working_area_main"> 
 							<div id="wac1" class="working_area_column"> 
-								<div class="item" style="padding-left:10px;font-size:10px;"  ng-click="select_this_element ( $event, item)" ng-repeat="item in itemlist track by $index">  {{item.name}} </div>
+								<button class="item"  ng-click="select_this_element ( $event, item)" ng-repeat="item in itemlist track by $index">  {{item.name}} </button>
 							</div>
 						</div> <!-- id="workin_area_main" --> 
 						
